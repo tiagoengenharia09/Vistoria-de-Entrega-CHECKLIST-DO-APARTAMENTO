@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Vistoria — Checklist de Entrega</title>
+
+<!-- Comportamento de app instalado (Adicionar à Tela de Início) -->
+<meta name="theme-color" content="#14213D">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vistoria">
+<link rel="apple-touch-icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%2314213D"/><rect x="30" y="12" width="40" height="12" rx="4" fill="%23D9932F"/><rect x="20" y="22" width="60" height="70" rx="9" fill="%23ECEFEE"/><path d="M32 56 L45 69 L72 38" stroke="%232F7A55" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="%2314213D"/><rect x="30" y="12" width="40" height="12" rx="4" fill="%23D9932F"/><rect x="20" y="22" width="60" height="70" rx="9" fill="%23ECEFEE"/><path d="M32 56 L45 69 L72 38" stroke="%232F7A55" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Vistoria de Entrega","short_name":"Vistoria","display":"standalone","start_url":"./","background_color":"%23ECEFEE","theme_color":"%2314213D","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' rx=\'22\' fill=\'%2314213D\'/%3E%3Crect x=\'30\' y=\'12\' width=\'40\' height=\'12\' rx=\'4\' fill=\'%23D9932F\'/%3E%3Crect x=\'20\' y=\'22\' width=\'60\' height=\'70\' rx=\'9\' fill=\'%23ECEFEE\'/%3E%3Cpath d=\'M32 56 L45 69 L72 38\' stroke=\'%232F7A55\' stroke-width=\'9\' fill=\'none\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any"}]}'>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14213D;
+    --ink-soft:#33425C;
+    --paper:#ECEFEE;
+    --card:#FFFFFF;
+    --line:#D8DEE1;
+    --line-strong:#B9C3C8;
+    --amber:#D9932F;
+    --amber-deep:#7A4E10;
+    --green:#2F7A55;
+    --blue:#3E6E99;
+    --blue-deep:#264C6B;
+    --muted:#66758A;
+    --r-sm:5px; --r-md:9px; --r-lg:16px;
+    --shadow:0 2px 10px rgba(20,33,61,.08);
+    --shadow-lg:0 -6px 24px rgba(20,33,61,.12);
+    --safe-top:env(safe-area-inset-top,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(62,110,153,.10), transparent),
+      linear-gradient(var(--paper),var(--paper)),
+      repeating-linear-gradient(0deg, rgba(62,110,153,.055) 0px, rgba(62,110,153,.055) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(62,110,153,.055) 0px, rgba(62,110,153,.055) 1px, transparent 1px, transparent 34px);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    overscroll-behavior-y:none;
+  }
+  h1,h2,h3,.disp{font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; letter-spacing:.04em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  button{font-family:inherit;}
+
+  /* ---------- APP BAR (fixo no topo) ---------- */
+  .appbar{
+    position:fixed; top:0; left:0; right:0; z-index:30;
+    background:linear-gradient(180deg,var(--ink),#182849);
+    padding:calc(10px + var(--safe-top)) 16px 0;
+    box-shadow:0 4px 18px rgba(10,16,30,.28);
+  }
+  .appbar-row{display:flex;align-items:center;gap:10px;padding-bottom:10px;}
+  .brand-mark{width:32px;height:32px;border-radius:8px;background:var(--ink);flex:none;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(217,147,47,.5);}
+  .brand-mark svg{width:20px;height:20px;}
+  .brand-text{flex:1;min-width:0;}
+  .brand-text .name{color:#fff;font-size:17px;font-weight:600;margin:0;line-height:1.1;}
+  .brand-text .sub{color:#9FB2C9;font-size:10.5px;margin:0;font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+  .appbar-step{color:#D9932F;font-size:11px;font-family:'IBM Plex Mono',monospace;white-space:nowrap;}
+  .ruler{display:flex;gap:3px;padding-bottom:10px;}
+  .tick{flex:1;height:4px;background:rgba(255,255,255,.18);border-radius:2px;position:relative;cursor:pointer;transition:.15s;}
+  .tick.done{background:var(--blue);}
+  .tick.current{background:var(--amber);height:6px;}
+  .tick.flagged::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--amber);border-radius:50%;box-shadow:0 0 0 2px rgba(217,147,47,.35);}
+
+  #appbarSpacer{height:0;}
+
+  /* ---------- CONTENT ---------- */
+  #app{max-width:640px;margin:0 auto;padding:16px 16px 24px;}
+  .screen{display:none;}
+  .screen.active{display:block; animation:slideIn .28s cubic-bezier(.2,.7,.3,1);}
+  @keyframes slideIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  /* ---------- INTRO ---------- */
+  .hero-icon{width:56px;height:56px;border-radius:14px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:var(--shadow);}
+  .hero-icon svg{width:32px;height:32px;}
+  .intro-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 20px;margin-bottom:16px;box-shadow:var(--shadow);}
+  .intro-card h2{font-size:27px;margin:0 0 8px;color:var(--ink);}
+  .intro-card p{line-height:1.55;font-size:14.5px;color:var(--ink-soft);}
+  .warn-box{border-left:3px solid var(--amber);background:#FBF2E2;padding:12px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:13.5px;color:var(--amber-deep);margin:14px 0;line-height:1.5;}
+  .step-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:7px;}
+  .step-list li{font-size:13.5px;color:var(--ink-soft);display:flex;gap:9px;align-items:center;}
+  .step-list .n{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:1px 6px;color:var(--ink);flex:none;}
+
+  /* ---------- STEP HEADER ---------- */
+  .step-head{margin-bottom:14px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);letter-spacing:.08em;}
+  .step-head h2{font-size:25px;margin:2px 0 6px;color:var(--ink);}
+  .step-head .desc{font-size:13.5px;color:var(--muted);line-height:1.5;max-width:60ch;}
+
+  /* ---------- ITEM CARD ---------- */
+  .item{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 16px 14px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .15s;}
+  .item.bad{box-shadow:0 2px 14px rgba(217,147,47,.22);}
+  .item.ok{box-shadow:0 2px 14px rgba(47,122,85,.16);}
+  .item .code{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);}
+  .item h3{font-size:18px;margin:2px 0 8px;text-transform:none;letter-spacing:0;font-weight:600;font-family:'Work Sans',sans-serif;color:var(--ink);}
+  .item .howto{font-size:13px;color:var(--ink-soft);line-height:1.5;background:var(--paper);border-radius:var(--r-sm);padding:9px 11px;margin-bottom:7px;}
+  .item .howto b{color:var(--blue-deep);}
+  .item .why{font-size:12px;color:var(--amber-deep);margin-bottom:12px;display:flex;gap:5px;}
+
+  .status-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .status-btn{flex:1;min-width:100px;padding:10px 6px;border-radius:var(--r-md);border:1.5px solid var(--line);background:#fff;font-family:'Work Sans';font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;text-transform:uppercase;letter-spacing:.02em;transition:.12s;}
+  .status-btn:active{transform:scale(.97);}
+  .status-btn.ok.active{background:var(--green);border-color:var(--green);color:#fff;}
+  .status-btn.bad.active{background:var(--amber);border-color:var(--amber);color:#fff;}
+  .status-btn.na.active{background:var(--muted);border-color:var(--muted);color:#fff;}
+
+  .extra{display:none;}
+  .extra.show{display:block; animation:slideIn .2s ease;}
+  textarea{width:100%;border:1px solid var(--line);border-radius:var(--r-sm);padding:9px;font-family:'Work Sans';font-size:13px;resize:vertical;min-height:54px;margin-bottom:9px;background:var(--paper);}
+  textarea:focus{outline:2px solid var(--blue);outline-offset:1px;}
+  .photo-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+  .thumb{width:66px;height:66px;border-radius:var(--r-sm);overflow:hidden;position:relative;border:1px solid var(--line);cursor:pointer;box-shadow:var(--shadow);}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .thumb .rm{position:absolute;top:2px;right:2px;background:rgba(20,20,20,.65);color:#fff;border:none;width:18px;height:18px;font-size:11px;line-height:18px;border-radius:var(--r-sm);cursor:pointer;padding:0;}
+  .thumb .edit-hint{position:absolute;bottom:0;left:0;right:0;background:rgba(20,33,61,.55);color:#fff;font-size:8.5px;text-align:center;padding:1px 0;font-family:'IBM Plex Mono';}
+  .add-photo{width:66px;height:66px;border:1.5px dashed var(--blue);border-radius:var(--r-sm);background:rgba(62,110,153,.05);color:var(--blue);font-size:22px;cursor:pointer;}
+
+  /* STAMP */
+  .stamp{position:absolute;top:12px;right:-8px;transform:rotate(9deg);border:3px double var(--amber-deep);color:var(--amber-deep);font-family:'Barlow Condensed';font-weight:700;font-size:13px;letter-spacing:.06em;padding:3px 11px;border-radius:5px;opacity:0;pointer-events:none;transition:.2s;background:rgba(217,147,47,.08);}
+  .item.bad .stamp{opacity:1;}
+  .stamp.ok-stamp{border-color:var(--green);color:var(--green);background:rgba(47,122,85,.08);}
+  .item.ok .stamp.ok-stamp{opacity:1;}
+
+  /* ---------- BOTTOM NAV (fixo) ---------- */
+  #bottomNav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);box-shadow:var(--shadow-lg);padding:10px 16px calc(10px + var(--safe-bottom));}
+  .nav{display:flex;gap:10px;max-width:640px;margin:0 auto;}
+  .btn{flex:1;padding:13px;border-radius:var(--r-md);border:none;font-family:'Barlow Condensed';font-weight:600;font-size:16px;letter-spacing:.03em;text-transform:uppercase;cursor:pointer;transition:.12s;}
+  .btn:active{transform:scale(.98);}
+  .btn.primary{background:var(--ink);color:#fff;}
+  .btn.ghost{background:none;border:1.5px solid var(--line);color:var(--ink);}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* ---------- REPORT ---------- */
+  .report-cover{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+  .report-cover h2{font-size:25px;margin:0 0 4px;color:var(--ink);}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}
+  .stat{background:var(--paper);border-radius:var(--r-md);padding:10px;text-align:center;}
+  .stat .num{font-family:'Barlow Condensed';font-size:28px;font-weight:700;display:block;}
+  .stat .lbl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .stat.bad .num{color:var(--amber-deep);}
+  .stat.ok .num{color:var(--green);}
+  input.meta{width:100%;border:none;border-bottom:1.5px solid var(--line);padding:7px 2px;font-family:'Work Sans';font-size:14px;margin-bottom:10px;background:none;}
+  input.meta:focus{outline:none;border-color:var(--blue);}
+  .report-section{margin-bottom:18px;}
+  .report-section h3{font-size:17px;border-bottom:2px solid var(--ink);padding-bottom:5px;margin-bottom:10px;font-family:'Work Sans';text-transform:none;letter-spacing:0;font-weight:600;color:var(--ink);}
+  .report-item{border-left:3px solid var(--amber);background:var(--card);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:11px 12px;margin-bottom:10px;box-shadow:var(--shadow);}
+  .report-item .code{font-family:'IBM Plex Mono';font-size:10px;color:var(--muted);}
+  .report-item h4{margin:2px 0 4px;font-size:15px;color:var(--ink);}
+  .report-item p{font-size:13px;margin:0 0 6px;color:var(--ink-soft);}
+  .report-photos{display:flex;gap:6px;flex-wrap:wrap;}
+  .report-photos img{width:92px;height:92px;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line);cursor:pointer;}
+  .empty-note{font-size:13px;color:var(--muted);font-style:italic;}
+
+  /* ---------- PHOTO EDITOR ---------- */
+  .editor-overlay{position:fixed;inset:0;background:rgba(8,13,24,.94);z-index:50;display:none;flex-direction:column;}
+  .editor-overlay.show{display:flex;}
+  .editor-top{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + var(--safe-top)) 14px 10px;color:#fff;}
+  .editor-top .disp{font-size:16px;margin:0;color:#fff;}
+  .editor-close{background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;cursor:pointer;padding:4px 10px;border-radius:var(--r-sm);}
+  .editor-canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:8px;}
+  #editorCanvas{max-width:100%;max-height:66vh;touch-action:none;background:#000;border-radius:var(--r-sm);box-shadow:0 4px 24px rgba(0,0,0,.5);}
+  .editor-toolbar{padding:8px 14px 4px;}
+  .tool-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .tool-btn{flex:1;min-width:70px;padding:10px 4px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:#ECEFEE;font-family:'Work Sans';font-size:12px;font-weight:600;cursor:pointer;text-transform:uppercase;letter-spacing:.02em;}
+  .tool-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .color-row{display:flex;gap:9px;align-items:center;margin-bottom:12px;}
+  .swatch{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.5);cursor:pointer;flex:none;}
+  .swatch.active{border-color:#fff;box-shadow:0 0 0 2px var(--blue);}
+  .editor-actions{display:flex;gap:10px;padding:10px 14px calc(16px + var(--safe-bottom));}
+
+  @media print{
+    body{background:#fff;}
+    .appbar, #bottomNav, .no-print{display:none !important;}
+    #appbarSpacer{display:none !important;}
+    #app{max-width:100%;padding:0;}
+    .screen{display:none !important;}
+    #screen-report{display:block !important;}
+    .report-item{break-inside:avoid;}
+    .item{box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="appbar no-print">
+  <div class="appbar-row">
+    <div class="brand-mark">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="22" fill="#14213D"/><rect x="30" y="12" width="40" height="12" rx="4" fill="#D9932F"/><rect x="20" y="22" width="60" height="70" rx="9" fill="#ECEFEE"/><path d="M32 56 L45 69 L72 38" stroke="#2F7A55" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="brand-text">
+      <p class="name">Vistoria de Entrega</p>
+      <p class="sub">CHECKLIST DO APARTAMENTO</p>
+    </div>
+    <div class="appbar-step" id="topbarStep"></div>
+  </div>
+  <div class="ruler" id="ruler"></div>
+</header>
+<div id="appbarSpacer"></div>
+
+<div id="app">
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <div class="hero-icon">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="22" fill="#14213D"/><rect x="30" y="12" width="40" height="12" rx="4" fill="#D9932F"/><rect x="20" y="22" width="60" height="70" rx="9" fill="#ECEFEE"/><path d="M32 56 L45 69 L72 38" stroke="#2F7A55" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="intro-card">
+      <h2>Antes de começar</h2>
+      <p>Este checklist vai te guiar, cômodo por cômodo, pela vistoria de entrega do seu apartamento novo. Para cada item, explicamos o que observar e como testar.</p>
+      <div class="warn-box">
+        <b>Por que isso importa:</b> na maioria dos contratos, qualquer defeito aparente que <b>não</b> for registrado nesta vistoria perde o direito de acionar a garantia da construtora mais tarde. Defeitos ocultos (ex: infiltração que só aparece depois) continuam cobertos — mas o que dá para ver, tocar ou testar hoje precisa ser apontado agora.
+      </div>
+      <p>Marque cada item como <b>Conforme</b>, <b>Não conforme</b> (fora do padrão) ou <b>Não se aplica</b>. Nos itens fora do padrão, anote uma observação e tire uma foto — dá para marcar a foto com setas, círculos e texto. No final você recebe um relatório completo para enviar à construtora.</p>
+      <ul class="step-list" id="introStepList"></ul>
+    </div>
+  </div>
+
+  <!-- STEPS render here -->
+  <div class="screen" id="screen-steps"></div>
+
+  <!-- REPORT -->
+  <div class="screen" id="screen-report"></div>
+
+</div>
+
+<nav id="bottomNav" class="no-print"></nav>
+
+<!-- PHOTO EDITOR MODAL -->
+<div class="editor-overlay" id="editorOverlay">
+  <div class="editor-top">
+    <p class="disp">Marcar foto</p>
+    <button class="editor-close" onclick="closeEditor()">Fechar ✕</button>
+  </div>
+  <div class="editor-canvas-wrap">
+    <canvas id="editorCanvas"></canvas>
+  </div>
+  <div class="editor-toolbar">
+    <div class="tool-row">
+      <button class="tool-btn" id="tool-arrow" onclick="setTool('arrow')">↗ Seta</button>
+      <button class="tool-btn" id="tool-circle" onclick="setTool('circle')">◯ Círculo</button>
+      <button class="tool-btn" id="tool-text" onclick="setTool('text')">Aa Texto</button>
+      <button class="tool-btn" onclick="undoAnnotation()">↩ Desfazer</button>
+      <button class="tool-btn" onclick="clearAnnotations()">Limpar</button>
+    </div>
+    <div class="color-row" id="colorRow"></div>
+  </div>
+  <div class="editor-actions">
+    <button class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" onclick="closeEditor()">Cancelar</button>
+    <button class="btn primary" onclick="saveEditor()">Salvar marcações</button>
+  </div>
+</div>
+
+<script>
+const STEPS = [
+  {
+    title:"Estrutura, Paredes e Teto",
+    eyebrow:"Etapa 01 · Geral",
+    desc:"Observe a construção como um todo antes de entrar nos detalhes de cada cômodo.",
+    items:[
+      {code:"EST-01", name:"Paredes e teto sem rachaduras", howto:"Olhe as paredes e o teto com luz rasante (de lado), principalmente nos cantos e acima de portas/janelas. Trincas finas de acabamento são comuns; rachaduras que atravessam a parede ou seguem diagonal não são normais.", why:"Rachaduras estruturais precisam ser registradas — depois da entrega, fica difícil provar que já existiam."},
+      {code:"EST-02", name:"Nivelamento de paredes e cantos", howto:"Se tiver um nível de bolha ou app de nível no celular, encoste nas paredes e no batente das portas. Cantos de parede devem formar 90°.", why:"Desalinhamentos grandes indicam problema de execução coberto pela garantia estrutural."},
+      {code:"EST-03", name:"Umidade e manchas", howto:"Procure manchas escuras, bolhas na pintura ou cheiro de mofo, especialmente perto de janelas, box e shafts.", why:"Manchas de umidade visíveis no dia da entrega precisam constar no laudo, mesmo que pareçam pequenas."},
+      {code:"EST-04", name:"Acabamento da pintura", howto:"Observe a parede sob luz de lanterna (celular) em ângulo baixo: marcas de rolo, respingos, falhas de cor e emendas mal disfarçadas aparecem assim.", why:"Retoques de pintura têm prazo de garantia curto — vale registrar tudo agora."}
+    ]
+  },
+  {
+    title:"Piso e Rodapés",
+    eyebrow:"Etapa 02 · Geral",
+    desc:"Caminhe por todos os cômodos prestando atenção no piso.",
+    items:[
+      {code:"PIS-01", name:"Piso sem trincas ou peças soltas", howto:"Bata levemente com o nó do dedo ou uma moeda em várias porcelanas/pisos. Som 'oco' e diferente do restante pode indicar peça descolada.", why:"Peças ocas tendem a estourar com o tempo — é item clássico de garantia."},
+      {code:"PIS-02", name:"Nivelamento do piso", howto:"Solte uma bolinha (ou bolinha de gude) no centro de cada cômodo e veja se ela rola sozinha para um canto.", why:"Piso desnivelado além do tolerável é defeito de execução."},
+      {code:"PIS-03", name:"Rejunte e assentamento", howto:"Verifique se o rejunte está uniforme, sem falhas, buracos ou cor irregular entre as peças.", why:"Rejunte malfeito facilita infiltração entre as juntas."},
+      {code:"PIS-04", name:"Rodapés bem fixados e alinhados", howto:"Passe a mão nos rodapés checando se estão firmes, sem frestas grandes para a parede e com cantos bem encaixados.", why:"Rodapés soltos costumam ser cobertos, mas só se apontados na entrega."}
+    ]
+  },
+  {
+    title:"Portas e Janelas (Esquadrias)",
+    eyebrow:"Etapa 03 · Geral",
+    desc:"Teste o funcionamento de cada porta e janela do apartamento, uma por uma.",
+    items:[
+      {code:"ESQ-01", name:"Portas abrem, fecham e travam bem", howto:"Abra e feche cada porta totalmente. Ela não deve raspar no piso, arrastar ou fechar sozinha por gravidade. Teste a chave e a fechadura.", why:"Portas desalinhadas indicam problema no batente ou na estrutura."},
+      {code:"ESQ-02", name:"Janelas deslizam/abrem sem esforço", howto:"Abra e feche todas as janelas e portas de vidro até o fim do curso, testando trincos e travas.", why:"Esquadrias emperradas são item comum de chamado técnico pós-entrega."},
+      {code:"ESQ-03", name:"Vedação contra água e ar", howto:"Verifique se há borracha de vedação em todo o perímetro da janela, sem folgas visíveis por onde entraria água de chuva.", why:"Vedação ruim causa infiltração — mais fácil de provar se registrado com foto na entrega."},
+      {code:"ESQ-04", name:"Vidros sem trincos ou riscos", howto:"Observe cada vidro contra a luz procurando trincas, bolhas ou riscos profundos.", why:"Vidro trincado é substituição simples se apontado agora."}
+    ]
+  },
+  {
+    title:"Instalações Elétricas",
+    eyebrow:"Etapa 04 · Geral",
+    desc:"Teste a energia elétrica de cada cômodo — leve um celular carregado ou uma lâmpada de teste, se tiver.",
+    items:[
+      {code:"ELE-01", name:"Todas as tomadas funcionando", howto:"Use o carregador do celular (ou testador de tomada) em cada tomada do apartamento, uma a uma. Anote a posição de qualquer uma sem energia.", why:"Tomada sem energia normalmente é ligação errada, coberta por garantia."},
+      {code:"ELE-02", name:"Interruptores e pontos de luz", howto:"Ligue e desligue cada interruptor conferindo se aciona o ponto de luz correto (às vezes vêm trocados).", why:"Interruptor trocado é fácil de corrigir se avisado logo."},
+      {code:"ELE-03", name:"Quadro de disjuntores identificado", howto:"Abra o quadro de energia e confira se os disjuntores estão identificados (etiquetados) e se nenhum está desarmado.", why:"Quadro sem identificação dificulta manutenção futura — vale pedir correção agora."},
+      {code:"ELE-04", name:"Campainha e interfone", howto:"Teste a campainha e o interfone com a portaria/portão, se aplicável.", why:"Interfone é item de conforto e segurança, sujeito a garantia."}
+    ]
+  },
+  {
+    title:"Instalações Hidráulicas",
+    eyebrow:"Etapa 05 · Geral",
+    desc:"Abra todos os registros e torneiras do apartamento para testar pressão e vazamentos.",
+    items:[
+      {code:"HID-01", name:"Torneiras e registros sem vazamento", howto:"Abra e feche cada torneira e registro (inclusive o registro geral) observando gotejamento na base ou embaixo da pia/tanque.", why:"Vazamento na entrega é bem mais fácil de resolver do que meses depois."},
+      {code:"HID-02", name:"Pressão e escoamento da água", howto:"Deixe a água correndo por 1 minuto em cada ponto e veja se escoa bem pelo ralo, sem empoçar.", why:"Ralo entupido ou com caimento errado é problema de execução."},
+      {code:"HID-03", name:"Ponto de gás (se houver)", howto:"Verifique se o ponto de gás do fogão/aquecedor está vedado e sem cheiro de vazamento.", why:"Vazamento de gás é item crítico de segurança — registre imediatamente."},
+      {code:"HID-04", name:"Caixa de descarga e válvulas", howto:"Acione a descarga de cada banheiro e observe se para de encher corretamente, sem vazar.", why:"Válvula que não veda desperdiça água e indica peça com defeito."}
+    ]
+  },
+  {
+    title:"Cozinha e Área de Serviço",
+    eyebrow:"Etapa 06 · Cômodo",
+    desc:"Confira bancadas, armários e pontos de instalação de eletrodomésticos.",
+    items:[
+      {code:"COZ-01", name:"Bancada e cuba niveladas, sem trincos", howto:"Passe a mão pela bancada procurando trincas, e confira se a cuba está bem fixada e sem balançar.", why:"Trinco em bancada de pedra é item visível a ser apontado já."},
+      {code:"COZ-02", name:"Pontos para eletrodomésticos", howto:"Confira se existem os pontos previstos (tomada 220V para forno, ponto de água para máquina de lavar, saída de esgoto) nas posições corretas.", why:"Ponto faltando ou fora do lugar é mais barato de corrigir antes da mudança."},
+      {code:"COZ-03", name:"Portas e gavetas de armários planejados (se incluídos)", howto:"Abra e feche todas as portas e gavetas, conferindo dobradiças e alinhamento.", why:"Dobradiça solta é ajuste simples se pedido na entrega."}
+    ]
+  },
+  {
+    title:"Banheiros",
+    eyebrow:"Etapa 07 · Cômodo",
+    desc:"Repita a atenção aos detalhes em cada banheiro do apartamento.",
+    items:[
+      {code:"BAN-01", name:"Louças (vaso, pia) sem trincos e bem fixadas", howto:"Verifique se o vaso sanitário e a pia estão firmes, sem balançar, e sem trincos na louça.", why:"Louça trincada às vezes só aparece de perto — vale foto detalhada."},
+      {code:"BAN-02", name:"Box e vedação do banheiro", howto:"Feche o box e jogue água de leve na área, verificando se escorre para fora.", why:"Vedação ruim do box causa infiltração no piso de baixo (se aplicável)."},
+      {code:"BAN-03", name:"Exaustão/ventilação do banheiro", howto:"Confira se existe abertura de ventilação (janela ou duto) e se não está obstruída.", why:"Ventilação insuficiente favorece mofo — item de conforto e saúde."}
+    ]
+  },
+  {
+    title:"Varanda e Área Externa",
+    eyebrow:"Etapa 08 · Cômodo",
+    desc:"Se o apartamento tiver varanda, sacada ou área externa privativa, avalie aqui.",
+    items:[
+      {code:"VAR-01", name:"Piso com caimento correto para o ralo", howto:"Jogue um pouco de água no piso da varanda e observe se ela escoa toda para o ralo, sem empoçar.", why:"Caimento errado causa infiltração para o apartamento de baixo."},
+      {code:"VAR-02", name:"Guarda-corpo firme e na altura correta", howto:"Empurre o guarda-corpo/grade com força moderada checando se está bem fixado, sem folga.", why:"Guarda-corpo é item de segurança — qualquer folga deve ser registrada."},
+      {code:"VAR-03", name:"Vedação entre varanda e área interna", howto:"Verifique a soleira e vedação da porta que liga a varanda ao ambiente interno.", why:"Evita entrada de água de chuva para dentro do apartamento."}
+    ]
+  }
+];
+
+let state = STEPS.map(s => ({
+  items: s.items.map(() => ({status:null, note:"", photos:[]}))
+}));
+let current = -1; // -1 = intro, número = etapa, 'report' = relatório
+let clientName = "";
+let unitInfo = "";
+
+function buildIntroList(){
+  const ul = document.getElementById('introStepList');
+  ul.innerHTML = STEPS.map((s,i)=>`<li><span class="n">${String(i+1).padStart(2,'0')}</span> ${s.title}</li>`).join('');
+}
+
+function buildRuler(){
+  const r = document.getElementById('ruler');
+  r.innerHTML = STEPS.map((s,i)=>{
+    const flagged = state[i].items.some(it=>it.status==='bad');
+    const doneAll = state[i].items.every(it=>it.status);
+    let cls = 'tick';
+    if(i===current) cls+=' current';
+    else if(doneAll) cls+=' done';
+    if(flagged) cls+=' flagged';
+    return `<div class="${cls}" onclick="goToStep(${i})" title="${s.title}"></div>`;
+  }).join('');
+}
+
+function updateBottomNav(){
+  const nav = document.getElementById('bottomNav');
+  if(current === -1){
+    nav.innerHTML = `<div class="nav"><button class="btn primary" style="flex:1" onclick="goToStep(0)">Começar vistoria</button></div>`;
+  } else if(current === 'report'){
+    nav.innerHTML = `<div class="nav">
+      <button class="btn ghost" onclick="goToStep(${STEPS.length-1})">Voltar à vistoria</button>
+      <button class="btn primary" onclick="window.print()">Imprimir / Salvar PDF</button>
+    </div>`;
+  } else {
+    const idx = current;
+    nav.innerHTML = `<div class="nav">
+      <button class="btn ghost" onclick="${idx===0?'goToIntro()':'goToStep('+(idx-1)+')'}">${idx===0?'Início':'Anterior'}</button>
+      <button class="btn primary" onclick="${idx===STEPS.length-1?'goToReport()':'goToStep('+(idx+1)+')'}">${idx===STEPS.length-1?'Ver relatório final':'Próxima etapa'}</button>
+    </div>`;
+  }
+}
+
+function renderStep(idx){
+  current = idx;
+  document.getElementById('screen-intro').classList.remove('active');
+  document.getElementById('screen-report').classList.remove('active');
+  const el = document.getElementById('screen-steps');
+  el.classList.add('active');
+  const s = STEPS[idx];
+  document.getElementById('topbarStep').textContent = `Etapa ${idx+1} / ${STEPS.length}`;
+
+  let html = `
+    <div class="step-head">
+      <div class="eyebrow">${s.eyebrow}</div>
+      <h2>${s.title}</h2>
+      <div class="desc">${s.desc}</div>
+    </div>`;
+
+  s.items.forEach((it, ii)=>{
+    const st = state[idx].items[ii];
+    const cls = st.status==='bad' ? 'bad' : st.status==='ok' ? 'ok' : '';
+    html += `
+    <div class="item ${cls}" id="item-${idx}-${ii}">
+      <div class="stamp">Não conforme</div>
+      <div class="stamp ok-stamp">Conforme</div>
+      <div class="code">${it.code}</div>
+      <h3>${it.name}</h3>
+      <div class="howto"><b>Como checar:</b> ${it.howto}</div>
+      <div class="why">⚠ ${it.why}</div>
+      <div class="status-row">
+        <button class="status-btn ok ${st.status==='ok'?'active':''}" onclick="setStatus(${idx},${ii},'ok')">Conforme</button>
+        <button class="status-btn bad ${st.status==='bad'?'active':''}" onclick="setStatus(${idx},${ii},'bad')">Não conforme</button>
+        <button class="status-btn na ${st.status==='na'?'active':''}" onclick="setStatus(${idx},${ii},'na')">Não se aplica</button>
+      </div>
+      <div class="extra ${st.status==='bad'?'show':''}" id="extra-${idx}-${ii}">
+        <textarea placeholder="Descreva o que foi observado (ex: trinca de 15cm no canto superior esquerdo da parede da sala)..." oninput="setNote(${idx},${ii},this.value)">${st.note}</textarea>
+        <div class="photo-row" id="photos-${idx}-${ii}"></div>
+        <input type="file" accept="image/*" capture="environment" multiple style="display:none" id="file-${idx}-${ii}" onchange="addPhotos(${idx},${ii},this.files)">
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
+  s.items.forEach((it,ii)=> renderPhotos(idx,ii));
+  buildRuler();
+  updateBottomNav();
+}
+
+function setStatus(idx, ii, val){
+  const st = state[idx].items[ii];
+  st.status = st.status===val ? null : val;
+  renderStep(idx);
+}
+
+function setNote(idx, ii, val){
+  state[idx].items[ii].note = val;
+}
+
+function addPhotos(idx, ii, files){
+  const st = state[idx].items[ii];
+  [...files].forEach(f=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      st.photos.push(e.target.result);
+      renderPhotos(idx,ii);
+    };
+    reader.readAsDataURL(f);
+  });
+}
+
+function removePhoto(idx, ii, pi){
+  state[idx].items[ii].photos.splice(pi,1);
+  renderPhotos(idx,ii);
+}
+
+function renderPhotos(idx, ii){
+  const container = document.getElementById(`photos-${idx}-${ii}`);
+  if(!container) return;
+  const st = state[idx].items[ii];
+  let html = st.photos.map((p,pi)=>`
+    <div class="thumb" onclick="openEditor(${idx},${ii},${pi})">
+      <img src="${p}">
+      <div class="edit-hint">marcar</div>
+      <button class="rm" onclick="event.stopPropagation();removePhoto(${idx},${ii},${pi})">✕</button>
+    </div>
+  `).join('');
+  html += `<button class="add-photo" onclick="document.getElementById('file-${idx}-${ii}').click()">+</button>`;
+  container.innerHTML = html;
+}
+
+function goToIntro(){
+  current = -1;
+  document.getElementById('screen-steps').classList.remove('active');
+  document.getElementById('screen-report').classList.remove('active');
+  document.getElementById('screen-intro').classList.add('active');
+  document.getElementById('topbarStep').textContent = '';
+  buildRuler();
+  updateBottomNav();
+  window.scrollTo(0,0);
+}
+
+function goToStep(i){ renderStep(i); window.scrollTo(0,0); }
+
+function goToReport(){
+  document.getElementById('screen-steps').classList.remove('active');
+  document.getElementById('screen-intro').classList.remove('active');
+  const el = document.getElementById('screen-report');
+  el.classList.add('active');
+  current = 'report';
+  document.getElementById('topbarStep').textContent = 'Relatório final';
+  buildRuler();
+  updateBottomNav();
+  window.scrollTo(0,0);
+
+  let totalItems=0, okCount=0, badCount=0, pendingCount=0;
+  let sectionsHtml = '';
+
+  STEPS.forEach((s, idx)=>{
+    let secHtml = '';
+    let hasBad = false;
+    s.items.forEach((it, ii)=>{
+      const st = state[idx].items[ii];
+      totalItems++;
+      if(st.status==='ok') okCount++;
+      else if(st.status==='bad') badCount++;
+      else if(!st.status) pendingCount++;
+
+      if(st.status==='bad'){
+        hasBad = true;
+        secHtml += `
+          <div class="report-item">
+            <div class="code">${it.code}</div>
+            <h4>${it.name}</h4>
+            <p>${st.note ? st.note : '<span class="empty-note">Sem observação escrita.</span>'}</p>
+            <div class="report-photos">${st.photos.map((p,pi)=>`<img src="${p}" onclick="openEditor(${idx},${ii},${pi})" title="Clique para marcar a foto">`).join('') || '<span class="empty-note">Sem foto anexada.</span>'}</div>
+          </div>`;
+      }
+    });
+    if(hasBad){
+      sectionsHtml += `<div class="report-section"><h3>${s.title}</h3>${secHtml}</div>`;
+    }
+  });
+
+  if(badCount===0){
+    sectionsHtml = `<div class="report-section"><p class="empty-note">Nenhum item foi marcado como "não conforme". Se ainda faltam itens pendentes, volte e complete a vistoria antes de assinar o termo de entrega.</p></div>`;
+  }
+
+  el.innerHTML = `
+    <div class="report-cover">
+      <div class="eyebrow">Relatório de vistoria</div>
+      <h2>Termo de Observações</h2>
+      <input class="meta no-print" id="clientNameInput" placeholder="Nome do proprietário" value="${clientName}" oninput="clientName=this.value">
+      <input class="meta no-print" id="unitInfoInput" placeholder="Endereço / bloco / unidade" value="${unitInfo}" oninput="unitInfo=this.value">
+      <div class="mono" style="font-size:12px;color:var(--muted)">Data da vistoria: ${new Date().toLocaleDateString('pt-BR')}</div>
+      <div class="stat-grid">
+        <div class="stat ok"><span class="num">${okCount}</span><span class="lbl">Conformes</span></div>
+        <div class="stat bad"><span class="num">${badCount}</span><span class="lbl">Não conformes</span></div>
+        <div class="stat"><span class="num">${pendingCount}</span><span class="lbl">Pendentes</span></div>
+      </div>
+      ${pendingCount>0 ? `<div class="warn-box no-print">Você ainda tem ${pendingCount} item(ns) sem status definido. Volte às etapas e finalize antes de assinar o termo.</div>` : ''}
+    </div>
+    ${sectionsHtml}
+  `;
+}
+
+/* ---------- PHOTO EDITOR ---------- */
+const EDITOR_COLORS = ['#E5484D','#F5A623','#2F9E44','#2B7FD9','#FFFFFF','#111111'];
+let editorColor = EDITOR_COLORS[0];
+let editorTool = 'arrow';
+let editing = null; // {idx, ii, pi}
+let editorImage = null;
+let annotations = [];
+let draftAnnotation = null;
+let dragStart = null;
+let isDragging = false;
+
+function buildColorRow(){
+  const row = document.getElementById('colorRow');
+  row.innerHTML = EDITOR_COLORS.map(c=>`<div class="swatch ${c===editorColor?'active':''}" style="background:${c}" onclick="setColor('${c}')"></div>`).join('');
+}
+function setColor(c){ editorColor = c; buildColorRow(); }
+function setTool(t){
+  editorTool = t;
+  ['arrow','circle','text'].forEach(name=>{
+    document.getElementById('tool-'+name).classList.toggle('active', name===t);
+  });
+}
+
+function openEditor(idx, ii, pi){
+  editing = {idx, ii, pi};
+  annotations = [];
+  draftAnnotation = null;
+  const img = new Image();
+  img.onload = ()=>{
+    const maxW = 900;
+    let w = img.width, h = img.height;
+    if(w > maxW){ h = h*maxW/w; w = maxW; }
+    const canvas = document.getElementById('editorCanvas');
+    canvas.width = w; canvas.height = h;
+    editorImage = img;
+    setTool('arrow');
+    buildColorRow();
+    redrawEditor();
+    document.getElementById('editorOverlay').classList.add('show');
+  };
+  img.src = state[idx].items[ii].photos[pi];
+}
+
+function closeEditor(){
+  document.getElementById('editorOverlay').classList.remove('show');
+  editing = null;
+}
+
+function redrawEditor(){
+  const canvas = document.getElementById('editorCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(editorImage) ctx.drawImage(editorImage,0,0,canvas.width,canvas.height);
+  annotations.forEach(a=>drawAnnotation(ctx,a));
+  if(draftAnnotation) drawAnnotation(ctx,draftAnnotation);
+}
+
+function drawAnnotation(ctx,a){
+  ctx.strokeStyle = a.color;
+  ctx.fillStyle = a.color;
+  ctx.lineWidth = Math.max(3, ctx.canvas.width*0.006);
+  ctx.lineCap = 'round';
+  if(a.type==='arrow'){
+    drawArrow(ctx,a.x1,a.y1,a.x2,a.y2);
+  } else if(a.type==='circle'){
+    const cx=(a.x1+a.x2)/2, cy=(a.y1+a.y2)/2;
+    const rx=Math.abs(a.x2-a.x1)/2, ry=Math.abs(a.y2-a.y1)/2;
+    ctx.beginPath();
+    ctx.ellipse(cx,cy,Math.max(rx,8),Math.max(ry,8),0,0,Math.PI*2);
+    ctx.stroke();
+  } else if(a.type==='text'){
+    const fontSize = Math.max(18, ctx.canvas.width*0.032);
+    ctx.font = `700 ${fontSize}px 'Work Sans', sans-serif`;
+    ctx.textBaseline = 'top';
+    ctx.lineWidth = fontSize*0.18;
+    ctx.strokeStyle = 'rgba(0,0,0,.65)';
+    ctx.strokeText(a.text, a.x, a.y);
+    ctx.fillStyle = a.color;
+    ctx.fillText(a.text, a.x, a.y);
+  }
+}
+
+function drawArrow(ctx,x1,y1,x2,y2){
+  const headlen = Math.max(14, ctx.canvas.width*0.02);
+  const angle = Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-headlen*Math.cos(angle-Math.PI/6), y2-headlen*Math.sin(angle-Math.PI/6));
+  ctx.lineTo(x2-headlen*Math.cos(angle+Math.PI/6), y2-headlen*Math.sin(angle+Math.PI/6));
+  ctx.closePath();
+  ctx.fill();
+}
+
+function getCanvasPos(e){
+  const canvas = document.getElementById('editorCanvas');
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: (clientX-rect.left) * (canvas.width/rect.width),
+    y: (clientY-rect.top) * (canvas.height/rect.height)
+  };
+}
+
+function editorPointerDown(e){
+  if(!editorImage) return;
+  const pos = getCanvasPos(e);
+  if(editorTool==='text'){
+    const text = prompt('Digite a observação:');
+    if(text && text.trim()){
+      annotations.push({type:'text', color:editorColor, x:pos.x, y:pos.y, text:text.trim()});
+      redrawEditor();
+    }
+    return;
+  }
+  isDragging = true;
+  dragStart = pos;
+  e.preventDefault();
+}
+
+function editorPointerMove(e){
+  if(!isDragging) return;
+  const pos = getCanvasPos(e);
+  draftAnnotation = {type:editorTool, color:editorColor, x1:dragStart.x, y1:dragStart.y, x2:pos.x, y2:pos.y};
+  redrawEditor();
+  e.preventDefault();
+}
+
+function editorPointerUp(e){
+  if(!isDragging) return;
+  isDragging = false;
+  if(draftAnnotation){
+    annotations.push(draftAnnotation);
+    draftAnnotation = null;
+    redrawEditor();
+  }
+}
+
+function undoAnnotation(){ annotations.pop(); redrawEditor(); }
+function clearAnnotations(){ annotations = []; redrawEditor(); }
+
+function saveEditor(){
+  const canvas = document.getElementById('editorCanvas');
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+  const {idx, ii, pi} = editing;
+  state[idx].items[ii].photos[pi] = dataUrl;
+  closeEditor();
+  if(current === 'report'){ goToReport(); }
+  else if(typeof current === 'number' && current === idx){ renderPhotos(idx, ii); }
+}
+
+(function initEditorEvents(){
+  const canvas = document.getElementById('editorCanvas');
+  canvas.addEventListener('mousedown', editorPointerDown);
+  canvas.addEventListener('mousemove', editorPointerMove);
+  window.addEventListener('mouseup', editorPointerUp);
+  canvas.addEventListener('touchstart', editorPointerDown, {passive:false});
+  canvas.addEventListener('touchmove', editorPointerMove, {passive:false});
+  canvas.addEventListener('touchend', editorPointerUp);
+})();
+
+/* ---------- Ajuste de altura da app bar (spacer) ---------- */
+function syncAppbarSpacer(){
+  const bar = document.querySelector('.appbar');
+  const spacer = document.getElementById('appbarSpacer');
+  const nav = document.getElementById('bottomNav');
+  spacer.style.height = bar.offsetHeight + 'px';
+  document.getElementById('app').style.paddingBottom = (nav.offsetHeight + 16) + 'px';
+}
+window.addEventListener('resize', syncAppbarSpacer);
+
+buildIntroList();
+buildRuler();
+updateBottomNav();
+syncAppbarSpacer();
+setTimeout(syncAppbarSpacer, 200);
+</script>
+</body>
+</html>
